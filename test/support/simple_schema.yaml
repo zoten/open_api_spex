@@ -1,0 +1,63 @@
+security: []
+servers:
+  - url: "http://localhost:8080"
+    variables: {}
+tags: []
+info:
+  title: Example
+  version: "1.0"
+openapi: 3.0.0
+components:
+  schemas:
+    AdditionalProperty:
+      type: object
+      required:
+        - a
+        - b
+      properties:
+        a: 
+          type: integer
+        b:
+          type: string
+    ComplexObject:
+      type: object
+      properties:
+        a_property:
+          type: integer
+      additionalProperties:
+        $ref: "#/components/schemas/AdditionalProperty"
+    ExampleObj:
+      type: object
+      properties:
+        some_int: 
+          type: integer
+        some_string:
+          type: string
+        some_object:
+          type:
+            object
+        some_complex_object:
+          $ref: "#/components/schemas/ComplexObject"
+    ExampleList:
+      type: array
+      items: 
+        $ref: "#/components/schemas/ExampleObj"
+        
+paths:
+  /examples:
+    get:
+      callbacks: {}
+      deprecated: false
+      description: Get a list of examples
+      operationId: Examples.index
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleList"
+          description: Configuration
+      summary: Get Application configuration
+      tags:
+        - Configuration
